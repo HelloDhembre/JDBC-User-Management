@@ -24,5 +24,6 @@ public class MainApp {
         UserDAO.deleteUser(newUser.getId());
 
         System.out.println("✅ Exiting program without warnings.");
+
     }
 }

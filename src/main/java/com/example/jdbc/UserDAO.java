@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDAO {
+    private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
     // ✅ Insert a new user into the database
     public static void insertUser(User user) {
@@ -26,15 +29,16 @@ public class UserDAO {
             int rowsInserted = stmt.executeUpdate();
 
             if (rowsInserted > 0) {
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    user.setId(rs.getInt(1)); // Get the auto-generated ID
+                try (ResultSet rs = stmt.getGeneratedKeys()) { // ✅ Close ResultSet properly
+                    if (rs.next()) {
+                        user.setId(rs.getInt(1)); // Get the auto-generated ID
+                    }
                 }
                 System.out.println("✅ User inserted: " + user);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error inserting user", e);
         }
     }
 
@@ -45,21 +49,21 @@ public class UserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             ResultSet rs = stmt.executeQuery()) { // ✅ Proper resource handling
 
             while (rs.next()) {
                 users.add(new User(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getInt("age"),
-                    rs.getString("phone"),
-                    rs.getString("address")
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getInt("age"),
+                        rs.getString("phone"),
+                        rs.getString("address")
                 ));
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error retrieving users", e);
         }
         return users;
     }
@@ -86,7 +90,7 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error updating user", e);
         }
     }
 
@@ -107,7 +111,7 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error deleting user", e);
         }
     }
 }

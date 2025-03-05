@@ -1,9 +1,11 @@
 com\example\jdbc\DBConnection.class
 com\example\jdbc\RetrieveUser.class
+com\example\jdbc\UserManagementGUI.class
 com\example\jdbc\App.class
 com\example\jdbc\User.class
 com\example\jdbc\InsertUser.class
 com\example\jdbc\UserDAO.class
+com\example\jdbc\UserManagementGUI$AddUserListener.class
 com\example\jdbc\DeleteUser.class
 com\example\jdbc\MainApp.class
 com\example\jdbc\UpdateUser.class

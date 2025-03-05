@@ -93,19 +93,27 @@
       </plugins>
     </pluginManagement>
     <plugins>
+        <!-- JAR Plugin: Includes the Main-Class in manifest -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.2</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>com.example.jdbc.UserManagementGUI</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+
+        <!-- Exec Maven Plugin: Allows running the project via 'mvn exec:java' -->
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.0.0</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>java</goal>
-                    </goals>
-                </execution>
-            </executions>
             <configuration>
-                <mainClass>${exec.mainClass}</mainClass>
+                <mainClass>com.example.jdbc.UserManagementGUI</mainClass>
             </configuration>
         </plugin>
     </plugins>
